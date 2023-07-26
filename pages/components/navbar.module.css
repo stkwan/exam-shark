@@ -1,0 +1,9 @@
+.brand {
+  letter-spacing: 0.05rem;
+  font-weight: bold;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+.nav {
+    background-image: linear-gradient(to right, royalblue, blueviolet);
+  }
