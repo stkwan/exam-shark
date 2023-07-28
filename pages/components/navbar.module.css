@@ -5,5 +5,9 @@
 }
 
 .nav {
-    background-image: linear-gradient(to right, royalblue, blueviolet);
-  }
+  background-image: linear-gradient(to right, darkcyan, royalblue);
+}
+
+.examImage {
+  margin-right: 12px;
+}
