@@ -9,5 +9,10 @@
 }
 
 .examImage {
-  margin-right: 12px;
+  margin-right: 8px;
+}
+
+.logoContainer {
+  display: flex;
+  vertical-align: baseline;
 }

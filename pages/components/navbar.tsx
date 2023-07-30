@@ -13,8 +13,10 @@ function NavBar() {
         <Container>
           <Navbar.Brand className={styles.brand}>
             <Nav.Link href="/">
-              <Image src={examImage} alt="exam icon" width={27} height={27} className={styles.examImage}/>
-              ExamSpace
+              <div className={styles.logoContainer}>
+                <Image src={examImage} alt="exam icon" width={27} height={27} className={styles.examImage}/>
+                <span>ExamSpace</span>
+              </div>
             </Nav.Link>
           </Navbar.Brand>
           <Nav>
