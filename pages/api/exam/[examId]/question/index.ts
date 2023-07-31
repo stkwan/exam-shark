@@ -13,8 +13,11 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
     case 'GET':
       const questions = await prisma.question.findMany({
         where: {
-        examId: Number(examId),
-      },
+          examId: Number(examId),
+        },
+        include: {
+          choices: true,
+        }
       });
 
       if (questions) {

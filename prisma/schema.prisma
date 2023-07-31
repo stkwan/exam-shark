@@ -23,7 +23,7 @@ model Question {
   prompt    String
   snippet   String?
   choices   Choice[]
-  exam      Exam     @relation(fields: [examId], references: [id])
+  exam      Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
   examId    Int
 }
 
@@ -31,6 +31,6 @@ model Choice {
   id          Int       @id @default(autoincrement())
   statement   String
   correct     Boolean   @default(false)
-  question    Question  @relation(fields: [questionId], references: [id])
+  question    Question  @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId  Int
 }
