@@ -3,9 +3,7 @@
 // Delete an exam
 
 import { NextApiRequest, NextApiResponse } from "next";
-import { Prisma, PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from '@/db';
 
 export default async function handleRequest(req: NextApiRequest, res: NextApiResponse) {
   const { examId } = req.query;
@@ -14,27 +12,39 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
   switch (req.method) {
 
     case 'GET':
-      const getExam = await prisma.exam.findUnique({
-        where: {
-          id: Number(examId),
-        },
-      });
-      if (getExam) {
-        res.status(200).json(getExam);
+      try {
+        const getExam = await prisma.exam.findUnique({
+          where: {
+            id: Number(examId),
+          },
+        });
+        if (getExam) {
+          res.status(200).json(getExam);
+        } else {
+          throw new Error('Exam not found');
+        }
+      } catch(error) {
+        if (error instanceof Error) {
+          const message = error.message;
+          res.status(404).json( {error: message} );
+        }
       }
-      res.status(400).json({error: 'Exam not found'})
       break;
 
     case 'PATCH':
-      const updateExam = await prisma.exam.update({
-        where: {
-          id: Number(examId),
-        },
-        data: {
-          title,
-        }
-      });
-      res.status(200).json(updateExam);
+      try {
+        const updateExam = await prisma.exam.update({
+          where: {
+            id: Number(examId),
+          },
+          data: {
+            title,
+          }
+        });
+        res.status(200).json(updateExam);
+      } catch (error) {
+        res.status(404).json( {error} );
+      }
       break;
 
     case 'DELETE':
@@ -49,6 +59,7 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
       } catch(error) {
         res.status(404).json({error});
       }
+      break;
 
     }
 }

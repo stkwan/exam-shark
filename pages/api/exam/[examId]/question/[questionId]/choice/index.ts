@@ -1,9 +1,7 @@
 // get all choices for a given question within a given exam
 
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from '@/db';
 
 export default async function handleRequest(req: NextApiRequest, res: NextApiResponse) {
   const { questionId } = req.query;
@@ -21,6 +19,7 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
       } catch(error) {
         res.status(404).json( {error} );
       }
+      break;
     
     case 'POST':
       try {
@@ -35,6 +34,7 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
       } catch(error) {
         res.status(404).json( {error} );
       }
+      break;
   }
   
 }

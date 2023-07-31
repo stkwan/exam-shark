@@ -2,9 +2,7 @@
 // delete a choice
 
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from '@/db';
 
 export default async function handleRequest(req: NextApiRequest, res: NextApiResponse) {
   // get the params

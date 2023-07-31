@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from '@/db';
 
 export default async function requestHandler(req: NextApiRequest, res: NextApiResponse) {
   const { examId, questionId } = req.query;
@@ -14,11 +12,21 @@ export default async function requestHandler(req: NextApiRequest, res: NextApiRe
           where: {
             examId: Number(examId),
             id: Number(questionId),
+          },
+          include: {
+            choices: true,
           }
         });
-        res.status(200).json( {question} );
+        if (question) {
+          res.status(200).json( {question} );
+        } else {
+          throw Error('Question not found');
+        }
       } catch(error) {
-        res.status(404).json( {error} );
+        if (error instanceof Error) {
+          const message = error.message;
+          res.status(404).json( {error: message} );
+        }
       }
       break;
 
@@ -57,6 +65,7 @@ export default async function requestHandler(req: NextApiRequest, res: NextApiRe
       } catch(error) {
         res.status(400).json( {error} ) 
       }
+      break;
 
   };
 }
