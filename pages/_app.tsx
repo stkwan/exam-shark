@@ -1,6 +1,9 @@
 // Import React-Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+// Import bootstrap
+import 'bootstrap/dist/css/bootstrap.css';
+
 // Import global styles (can only be used in _app.tsx file)
 import '@/styles/globals.css';
 
