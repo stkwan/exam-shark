@@ -1,3 +1,10 @@
 .dashBoard {
   display: flex;
 }
+
+.selectExam {
+  font-size: 1.25rem;
+  padding: 0.5rem;
+  font-weight: bold;
+  width: 100%;
+}

@@ -12,10 +12,6 @@ export default function DashBoard({ allExams }: ExamResponse ) {
   const [examId, setExamId] = useState<number | null>(null);
   const [questionRes, setQuestionRes] = useState<QuestionResponse | null>(null);
 
-  useEffect(() => {
-    refreshExam( allExams[0].id )
-  }, [ allExams ]);
-
   const refreshExam = async (id: number) => {
     setExamId( id );
     const response = await fetch(`${process.env.NEXT_PUBLIC_PROXY}/api/exam/${id}/question`);
@@ -30,10 +26,11 @@ export default function DashBoard({ allExams }: ExamResponse ) {
 
   return (
     <div className="dashboard">
-        <h1>My Exams</h1>
+
 
         <div className="examList">
-          <select onChange={handleChange}>
+          <select className={styles.selectExam} onChange={handleChange}>
+            <option value="" hidden>My Exams</option>
             {allExams.map(exam => {
               return (
                 <option

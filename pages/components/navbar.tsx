@@ -12,7 +12,7 @@ function NavBar() {
       <Navbar className={styles.nav} data-bs-theme="dark">
         <Container>
           <Navbar.Brand className={styles.brand}>
-            <Nav.Link href="/">
+            <Nav.Link as={Link} href="/">
               <div className={styles.logoContainer}>
                 <Image src={examImage} alt="exam icon" width={27} height={27} className={styles.examImage}/>
                 <span>ExamSpace</span>
@@ -20,7 +20,6 @@ function NavBar() {
             </Nav.Link>
           </Navbar.Brand>
           <Nav>
-            <Nav.Link as={Link} href="/">Home</Nav.Link>
             <Nav.Link as={Link} href="/search">Search</Nav.Link>
             <Nav.Link as={Link} href="/about">About</Nav.Link>
           </Nav>
