@@ -2,9 +2,15 @@
   display: flex;
 }
 
+.examList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .selectExam {
   font-size: 1.25rem;
   padding: 0.5rem;
   font-weight: bold;
-  width: 100%;
+  width: 82%;
 }

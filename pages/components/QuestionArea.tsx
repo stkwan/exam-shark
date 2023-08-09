@@ -2,6 +2,7 @@ import { Question } from '@/models/Question'
 import styles from '@/pages/components/QuestionArea.module.css';
 import { MouseEvent } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
+import Choice from '@/models/Choice';
 
 interface QuestionResponse {
   questions: Question[]
@@ -11,9 +12,15 @@ interface QuestionResponse {
 
 export default function QuestionArea ( { questions }: QuestionResponse ) {
 
-  const handleClick = function (event: MouseEvent<HTMLButtonElement>) {
+  const handleClick = function (event: MouseEvent<HTMLParagraphElement>, choice: Choice) {
     event.preventDefault();
-    console.log('Clicked View');
+    const { correct } = choice;
+    const target = event.target as HTMLParagraphElement;
+    if (target.tagName === 'P') {
+      target.firstElementChild!.classList.toggle(styles.correct);
+    } else if (target.tagName === 'SPAN') {
+      target.classList.toggle(styles.correct);
+    }
   }
 
   return (
@@ -26,7 +33,15 @@ export default function QuestionArea ( { questions }: QuestionResponse ) {
             <Accordion.Header>{`${question.number}. ${question.prompt}`}</Accordion.Header>
             <Accordion.Body>
               {question.choices.map(choice => {
-                return <p key={choice.id}>{choice.statement}</p>
+                return (
+                  <p 
+                    className={styles.choice}
+                    key={choice.id}
+                    onClick={(e) => handleClick(e, choice)}
+                  >{choice.statement}
+                    <span className={styles.correct}>{choice.correct ? "correct" : "incorrect"}</span>
+                  </p>
+                )
               })}
             </Accordion.Body>
           </Accordion.Item>

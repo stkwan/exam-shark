@@ -3,6 +3,7 @@ import { ExamResponse } from '@/models/Exam';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Question } from '@/models/Question';
 import QuestionArea from './QuestionArea';
+import { useRouter } from 'next/router';
 
 interface QuestionResponse {
   questions: Question[];
@@ -11,6 +12,7 @@ interface QuestionResponse {
 export default function DashBoard({ allExams }: ExamResponse ) {
   const [examId, setExamId] = useState<number | null>(null);
   const [questionRes, setQuestionRes] = useState<QuestionResponse | null>(null);
+  const router = useRouter();
 
   const refreshExam = async (id: number) => {
     setExamId( id );
@@ -21,14 +23,17 @@ export default function DashBoard({ allExams }: ExamResponse ) {
 
   const handleChange = async (event: ChangeEvent<HTMLSelectElement>) => {
     const currentExamId = Number(event.target.value);
-    refreshExam(currentExamId);
+    //refreshExam(currentExamId);
+    router.push(`/exam/${currentExamId}`);
+  }
+
+  const handleNewExam = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log('New clicked');
   }
 
   return (
-    <div className="dashboard">
-
-
-        <div className="examList">
+    <div className={styles.dashboard}>
+        <div className={styles.examList}>
           <select className={styles.selectExam} onChange={handleChange}>
             <option value="" hidden>My Exams</option>
             {allExams.map(exam => {
@@ -42,6 +47,7 @@ export default function DashBoard({ allExams }: ExamResponse ) {
               )
             })}
           </select>
+          <button onClick={handleNewExam} className="btn btn-primary">+ New</button>
         </div>
 
         <hr />
