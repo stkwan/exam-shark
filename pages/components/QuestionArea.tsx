@@ -3,6 +3,9 @@ import styles from '@/pages/components/QuestionArea.module.css';
 import { MouseEvent } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Choice from '@/models/Choice';
+import Image from 'next/image';
+import correctSVG from '@/public/correct.svg';
+import incorrectSVG from '@/public/incorrect.svg';
 
 interface QuestionResponse {
   questions: Question[]
@@ -18,6 +21,8 @@ export default function QuestionArea ( { questions }: QuestionResponse ) {
     const target = event.target as HTMLParagraphElement;
     if (target.tagName === 'P') {
       target.firstElementChild!.classList.toggle(styles.correct);
+    } else if (target.tagName === 'IMG') {
+      target.parentElement!.classList.toggle(styles.correct);
     } else if (target.tagName === 'SPAN') {
       target.classList.toggle(styles.correct);
     }
@@ -39,7 +44,13 @@ export default function QuestionArea ( { questions }: QuestionResponse ) {
                     key={choice.id}
                     onClick={(e) => handleClick(e, choice)}
                   >{choice.statement}
-                    <span className={styles.correct}>{choice.correct ? "correct" : "incorrect"}</span>
+                    <span
+                      className={styles.correct}
+                    >
+                      {choice.correct ? 
+                        <Image src={correctSVG} alt='correct mark'></Image> : 
+                        <Image src={incorrectSVG} alt='wrong mark'></Image>}
+                    </span>
                   </p>
                 )
               })}
