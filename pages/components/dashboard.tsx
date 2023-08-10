@@ -29,6 +29,7 @@ export default function DashBoard({ allExams }: ExamResponse ) {
 
   const handleNewExam = (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log('New clicked');
+    router.push('/new');
   }
 
   return (

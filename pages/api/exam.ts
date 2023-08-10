@@ -14,7 +14,7 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
       });
       res.status(201).json( {exam} );
     } catch(error) {
-      res.status(404).json( {error} );
+      res.status(400).json( {error} );
     }
   }
 

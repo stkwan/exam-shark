@@ -12,7 +12,7 @@ datasource db {
 
 model Exam {
   id        Int        @id @default(autoincrement())
-  title     String     @db.VarChar(255)
+  title     String     @db.VarChar(255) @unique
   questions Question[]
 }
 
