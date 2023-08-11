@@ -16,7 +16,7 @@ export const createNewExam = async (title: string) => {
       return json;
     } else {
       if (json.error.code === 'P2002') {
-        throw Error('An exam with that title already exisits');
+        throw Error('An exam with that title already exists');
       }
     }
   } catch(error: unknown) {
