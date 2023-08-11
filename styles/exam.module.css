@@ -1,3 +1,30 @@
 .examHeading {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.examTitle {
+  font-weight: bold;
+}
+
+.menuButton {
+  background-color: orange;
+}
+
+.placeHolder {
+  height: 2rem;
+  width: 2rem;
+}
+
+.menuItem {
+  background-color: rgb(233, 233, 233);
+}
+
+.menuItem:hover {
+  background-color: lightblue;
+}
+
+.hideModal {
+  display: none;
 }
