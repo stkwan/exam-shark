@@ -12,7 +12,7 @@ interface ModalProps {
   refreshExam: (examId: string) => void;
 }
 
-export default function CreateQuestionModal( {show, handleClose, questionCount, examId, refreshExam}: ModalProps) {
+export default function EditQuestionModal( {show, handleClose, questionCount, examId, refreshExam}: ModalProps) {
   // Get next question number
   const nextQuestionNumber = questionCount + 1;
   const [question, setQuestion] = useState<string>('');

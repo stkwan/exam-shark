@@ -6,6 +6,7 @@ import Choice from '@/models/Choice';
 import Image from 'next/image';
 import correctSVG from '@/public/correct.svg';
 import incorrectSVG from '@/public/incorrect.svg';
+import editSVG from '@/public/editSVG.svg';
 
 interface QuestionResponse {
   questions: Question[]
@@ -33,13 +34,19 @@ export default function QuestionArea ( { questions }: QuestionResponse ) {
     }
   }
 
+  const handleEdit = () => {
+    console.log('Clicked EDIT!');
+  };
+
   return (
     <div>
-      <Accordion>
+      <Accordion defaultActiveKey="1">
       {questions.map(question => {
         return (
           <Accordion.Item key={question.id} eventKey={`${question.number}`}>
-            <Accordion.Header>{`${question.number}. ${question.prompt}`}</Accordion.Header>
+            <Accordion.Header>
+              {`${question.number}. ${question.prompt}`}
+            </Accordion.Header>
             <Accordion.Body>
               {question.choices.map(choice => {
                 return (
@@ -56,8 +63,9 @@ export default function QuestionArea ( { questions }: QuestionResponse ) {
                         <Image src={incorrectSVG} alt='wrong mark'></Image>}
                     </span>
                   </p>
-                )
+                );
               })}
+              <button onClick={handleEdit} className={`${styles.hide} editButton btn btn-primary`}>Edit Question</button>
             </Accordion.Body>
           </Accordion.Item>
         );

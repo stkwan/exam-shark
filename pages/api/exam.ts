@@ -2,11 +2,17 @@
 
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from '@/db';
+import { title } from "process";
 
 export default async function handleRequest(req: NextApiRequest, res: NextApiResponse) {
   if (req.method ===  'POST') {
     try {
       const { title } = req.body;
+
+      if (!title || title.length < 1) {
+        throw Error('Title must be provided');
+      }
+
       const exam = await prisma.exam.create({
         data: {
           title,
@@ -14,7 +20,10 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
       });
       res.status(201).json( {exam} );
     } catch(error) {
-      res.status(400).json( {error} );
+        if (error instanceof Error) {
+          const message = error.message;
+          res.status(400).json( {error: message} );
+        }
     }
   }
 

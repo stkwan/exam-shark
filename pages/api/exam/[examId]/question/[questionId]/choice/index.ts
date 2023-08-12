@@ -23,6 +23,10 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
     
     case 'POST':
       try {
+        if (!statement || statement.length < 1) {
+          throw Error('A choice must be provided');
+        }
+
         const choice = await prisma.choice.create({
           data: {
             statement,
@@ -32,7 +36,10 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
         });
         res.status(201).json( {choice} );
       } catch(error) {
-        res.status(404).json( {error} );
+        if (error instanceof Error) {
+          const message = error.message;
+          res.status(400).json( {error: message} );
+        }
       }
       break;
   }

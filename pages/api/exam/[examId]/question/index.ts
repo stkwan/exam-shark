@@ -26,6 +26,9 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
 
     case 'POST':
       try {
+        if (!prompt || prompt.length < 1) {
+          throw Error('A question must be provided');
+        }
         const question = await prisma.question.create({
           data: {
             examId: Number(examId),
@@ -35,7 +38,10 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
         });
         res.status(201).json( {question} );
       } catch(error) {
-        res.status(404).json( {error} );
+        if (error instanceof Error) {
+          const message = error.message;
+          res.status(400).json( {error: message} );
+        }
       }
       break;
   }
