@@ -9,10 +9,24 @@ interface QuestionResponse {
   questions: Question[];
 }
 
+const sortExams = function(exams: Exam[]): Exam[] {
+    return exams.sort((a: Exam, b: Exam) => {
+      const titleA = a.title.toLowerCase();
+      const titleB = b.title.toLowerCase();
+      if (titleA < titleB) {
+        return -1;
+      }
+      if (titleA > titleB) {
+        return 1;
+      }
+      return 0;
+    }); 
+}
+
 export default function DashBoard({ allExams }: ExamResponse ) {
   const [examId, setExamId] = useState<number | null>(null);
   const [questionRes, setQuestionRes] = useState<QuestionResponse | null>(null);
-  const [filteredExams, setFilteredExams] = useState<Exam[] | null>(allExams);
+  const [filteredExams, setFilteredExams] = useState<Exam[] | null>(sortExams(allExams));
   const router = useRouter();
 
   const refreshExam = async (id: number) => {
