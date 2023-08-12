@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import addQuestionChoices from '@/controllers/questionChoices';
+import { Question } from '@/models/Question';
 
 interface ModalProps {
   show: boolean;
@@ -10,9 +11,12 @@ interface ModalProps {
   questionCount: number;
   examId: string;
   refreshExam: (examId: string) => void;
+  questionToEdit: Question;
 }
 
-export default function EditQuestionModal( {show, handleClose, questionCount, examId, refreshExam}: ModalProps) {
+export default function EditQuestionModal( {show, handleClose, questionCount, examId, refreshExam, questionToEdit}: ModalProps) {
+  console.log(questionToEdit);
+  
   // Get next question number
   const nextQuestionNumber = questionCount + 1;
   const [question, setQuestion] = useState<string>('');
@@ -56,7 +60,7 @@ export default function EditQuestionModal( {show, handleClose, questionCount, ex
       <Modal show={show} onHide={handleClose}>
 
         <Modal.Header closeButton>
-          <Modal.Title>Create Question</Modal.Title>
+          <Modal.Title>Edit Question</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
@@ -69,6 +73,7 @@ export default function EditQuestionModal( {show, handleClose, questionCount, ex
                 rows={2}
                 autoFocus
                 required
+                value={questionToEdit ? questionToEdit.prompt : ''}
               />
             </Form.Group>
 
@@ -77,16 +82,16 @@ export default function EditQuestionModal( {show, handleClose, questionCount, ex
 
             <Form.Group>
               <Form.Label>Choice A</Form.Label>
-              <Form.Control required type="text" onChange={(e) => {setChoiceA(e.target.value)}}/>
+              <Form.Control required value={questionToEdit ? questionToEdit.choices[0].statement : ''} type="text" onChange={(e) => {setChoiceA(e.target.value)}}/>
 
               <Form.Label>Choice B</Form.Label>
-              <Form.Control required type="text" onChange={(e) => {setChoiceB(e.target.value)}}/>
+              <Form.Control required value={questionToEdit ? questionToEdit.choices[1].statement : ''} type="text" onChange={(e) => {setChoiceB(e.target.value)}}/>
 
               <Form.Label>Choice C</Form.Label>
-              <Form.Control required type="text" onChange={(e) => {setChoiceC(e.target.value)}}/>
+              <Form.Control required value={questionToEdit ? questionToEdit.choices[2].statement : ''} type="text" onChange={(e) => {setChoiceC(e.target.value)}}/>
 
               <Form.Label>Choice D</Form.Label>
-              <Form.Control required type="text" onChange={(e) => {setChoiceD(e.target.value)}}/>
+              <Form.Control required value={questionToEdit ? questionToEdit.choices[3].statement : ''} type="text" onChange={(e) => {setChoiceD(e.target.value)}}/>
             </Form.Group>
 
             <br />

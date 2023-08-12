@@ -1,12 +1,12 @@
 import { Question } from '@/models/Question'
 import styles from '@/pages/components/QuestionArea.module.css';
-import { MouseEvent } from 'react';
+import React, { MouseEvent, useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Choice from '@/models/Choice';
 import Image from 'next/image';
 import correctSVG from '@/public/correct.svg';
 import incorrectSVG from '@/public/incorrect.svg';
-import editSVG from '@/public/editSVG.svg';
+import EditQuestionModal from './editModal';
 
 interface QuestionResponse {
   questions: Question[]
@@ -15,6 +15,11 @@ interface QuestionResponse {
 // { props: {questions: [ { q1 }, { q2 }, { q3 } ] } }
 
 export default function QuestionArea ( { questions }: QuestionResponse ) {
+  const [show, setShow] = useState<boolean>(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  
+  const [questionToEdit, setQuestionToEdit] = useState<Question>();
 
   const handleClick = function (event: MouseEvent<HTMLParagraphElement>, choice: Choice) {
     event.preventDefault();
@@ -34,8 +39,14 @@ export default function QuestionArea ( { questions }: QuestionResponse ) {
     }
   }
 
-  const handleEdit = () => {
+  const handleEdit = (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log('Clicked EDIT!');
+    handleShow();
+    
+    const button = event.target as HTMLButtonElement;
+    const targetQuestionId = button.getAttribute('data-question-id');
+    const targetQuestion = questions.filter(question => question.id === Number(targetQuestionId));
+    setQuestionToEdit(targetQuestion[0]);
   };
 
   return (
@@ -65,12 +76,14 @@ export default function QuestionArea ( { questions }: QuestionResponse ) {
                   </p>
                 );
               })}
-              <button onClick={handleEdit} className={`${styles.hide} editButton btn btn-primary`}>Edit Question</button>
+              <button onClick={handleEdit} data-question-id={question.id} className={`${styles.hide} editButton btn btn-primary`}>Edit Question</button>
             </Accordion.Body>
           </Accordion.Item>
         );
       })}
       </Accordion>
+
+      <EditQuestionModal show={show} handleClose={handleClose} questionToEdit={questionToEdit}></EditQuestionModal>
     </div>
   );
 }
