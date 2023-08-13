@@ -2,8 +2,9 @@ import Modal from 'react-bootstrap/Modal';
 import { Button } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
-import addQuestionChoices from '@/controllers/questionChoices';
 import { Question } from '@/models/Question';
+import updateQuestionChoices from '@/controllers/updateQuestionChoices';
+import { useRouter } from 'next/router';
 
 interface ModalProps {
   show: boolean;
@@ -14,45 +15,84 @@ interface ModalProps {
   questionToEdit: Question;
 }
 
-export default function EditQuestionModal( {show, handleClose, questionCount, examId, refreshExam, questionToEdit}: ModalProps) {
-  console.log(questionToEdit);
+export default function EditQuestionModal( {show, handleClose, questionCount, refreshExam, questionToEdit}: ModalProps) {
+  const router = useRouter();
+  const examId = router.query.id;
+  //console.log(examId);
+  //console.log(questionToEdit);
   
   // Get next question number
   const nextQuestionNumber = questionCount + 1;
-  const [question, setQuestion] = useState<string>('');
-  const [choiceA, setChoiceA] = useState<string>('');
-  const [choiceB, setChoiceB] = useState<string>('');
-  const [choiceC, setChoiceC] = useState<string>('');
-  const [choiceD, setChoiceD] = useState<string>('');
+  const [question, setQuestion] = useState<string | null>(null);
+  const [choiceA, setChoiceA] = useState<string | null>(null);
+  const [choiceB, setChoiceB] = useState<string | null>(null);
+  const [choiceC, setChoiceC] = useState<string | null>(null);
+  const [choiceD, setChoiceD] = useState<string | null>(null);
   const [answer, setAnswer] = useState<string | null>(null);
   
   const handleAddQuestion = async() => {
-    const anyBlank = [question, choiceA, choiceB, choiceC, choiceD, answer].some(input => {
-      return input === null || input.length < 1;
-    });
+    // if anything is null, then we know it didn't change.
+    console.log([question, choiceA, choiceB, choiceC, choiceD, answer]);
     
-    if (anyBlank) {
-      alert('You must complete all feilds');
-      return;
-    } else {
-      handleClose();
+    // but if it's not null, then we know it changed
+
+    // if they are saving it, then they must always re-confirm the answer.
+    if (answer === null) {
+      alert('Please confirm the answer choice');
     }
 
-    const questionObject = {
-      prompt: question,
-      number: nextQuestionNumber
-    }
+    // Take the question and put it in the correct structure
+    const questionArgument = { prompt: question }
+    
+    // Take the choices and put it in the correct structure. For this, we need all the choices
+    const choicesArray: any = [choiceA, choiceB, choiceC, choiceD]
+    const choicesArgument = questionToEdit.choices.map((choice, index) => {
 
-    const choicesArray = [choiceA, choiceB, choiceC, choiceD].map((choice, index) => {
-      if (index === Number(answer)) {
-        return { statement: choice, correct: true }
+      const isCorrect = (idx: number) => {
+        return idx === Number(answer)
+      };
+
+      if (choicesArray[index] === null) {
+        isCorrect(index) ? choice.correct = true : choice.correct = false;
+        return choice;
       } else {
-        return { statement: choice, correct: false}
+        isCorrect(index) ? choice.correct = true : choice.correct = false;
+        choice.statement = choicesArray[index];
+        return choice;
       }
     });
+    //console.log(choicesArgument);
+
+    // const anyBlank = [question, choiceA, choiceB, choiceC, choiceD, answer].some(input => {
+    //   return input === null || input.length < 1;
+    // });
+    // 
+    // if (anyBlank) {
+    //   alert('You must complete all feilds');
+    //   return;
+    // } else {
+    //   handleClose();
+    // }
+
+    const questionId = questionToEdit.id;
+    console.log(questionId);
+
+    // const questionObject = {
+    //   prompt: question,
+    //   number: nextQuestionNumber
+    // }
+
+    // const choicesArray = [choiceA, choiceB, choiceC, choiceD].map((choice, index) => {
+    //   if (index === Number(answer)) {
+    //     return { statement: choice, correct: true }
+    //   } else {
+    //     return { statement: choice, correct: false}
+    //   }
+    // });
     
-    await addQuestionChoices( Number(examId), questionObject, choicesArray );
-    refreshExam(examId);
+    await updateQuestionChoices( Number(examId), questionId, questionArgument, choicesArgument );
+    handleClose();
+    refreshExam(String(examId));
   }
 
   return (
@@ -68,12 +108,12 @@ export default function EditQuestionModal( {show, handleClose, questionCount, ex
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Question</Form.Label>
               <Form.Control
-                onChange={(e) => {setQuestion(e.target.value)}}
+                onChange={(e) => {setQuestion(e.target.value); console.log(e.target.value)}}
                 as="textarea"
                 rows={2}
                 autoFocus
                 required
-                value={questionToEdit ? questionToEdit.prompt : ''}
+                defaultValue={questionToEdit ? questionToEdit.prompt : ''}
               />
             </Form.Group>
 
@@ -82,16 +122,16 @@ export default function EditQuestionModal( {show, handleClose, questionCount, ex
 
             <Form.Group>
               <Form.Label>Choice A</Form.Label>
-              <Form.Control required value={questionToEdit ? questionToEdit.choices[0].statement : ''} type="text" onChange={(e) => {setChoiceA(e.target.value)}}/>
+              <Form.Control required defaultValue={questionToEdit ? questionToEdit.choices[0].statement : ''} type="text" onChange={(e) => {setChoiceA(e.target.value); console.log(e.target.value)}}/>
 
               <Form.Label>Choice B</Form.Label>
-              <Form.Control required value={questionToEdit ? questionToEdit.choices[1].statement : ''} type="text" onChange={(e) => {setChoiceB(e.target.value)}}/>
+              <Form.Control required defaultValue={questionToEdit ? questionToEdit.choices[1].statement : ''} type="text" onChange={(e) => {setChoiceB(e.target.value)}}/>
 
               <Form.Label>Choice C</Form.Label>
-              <Form.Control required value={questionToEdit ? questionToEdit.choices[2].statement : ''} type="text" onChange={(e) => {setChoiceC(e.target.value)}}/>
+              <Form.Control required defaultValue={questionToEdit ? questionToEdit.choices[2].statement : ''} type="text" onChange={(e) => {setChoiceC(e.target.value)}}/>
 
               <Form.Label>Choice D</Form.Label>
-              <Form.Control required value={questionToEdit ? questionToEdit.choices[3].statement : ''} type="text" onChange={(e) => {setChoiceD(e.target.value)}}/>
+              <Form.Control required defaultValue={questionToEdit ? questionToEdit.choices[3].statement : ''} type="text" onChange={(e) => {setChoiceD(e.target.value)}}/>
             </Form.Group>
 
             <br />

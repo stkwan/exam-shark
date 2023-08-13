@@ -10,11 +10,12 @@ import EditQuestionModal from './editModal';
 
 interface QuestionResponse {
   questions: Question[]
+  refreshExam: (id: string) => void; 
 }
 
 // { props: {questions: [ { q1 }, { q2 }, { q3 } ] } }
 
-export default function QuestionArea ( { questions }: QuestionResponse ) {
+export default function QuestionArea ( { questions, refreshExam }: QuestionResponse ) {
   const [show, setShow] = useState<boolean>(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -49,10 +50,24 @@ export default function QuestionArea ( { questions }: QuestionResponse ) {
     setQuestionToEdit(targetQuestion[0]);
   };
 
+  const sortQuestions = function(questions: Question[]):Question[] {
+    return questions.sort((a: Question, b: Question) => {
+      const numberA = a.number;
+      const numberB = b.number;
+      if (numberA < numberB) {
+        return -1;
+      }
+      if (numberA > numberB) {
+        return 1;
+      }
+      return 0;
+    }); 
+  }
+
   return (
     <div>
       <Accordion defaultActiveKey="1">
-      {questions.map(question => {
+      {sortQuestions(questions).map(question => {
         return (
           <Accordion.Item key={question.id} eventKey={`${question.number}`}>
             <Accordion.Header>
@@ -83,7 +98,7 @@ export default function QuestionArea ( { questions }: QuestionResponse ) {
       })}
       </Accordion>
 
-      <EditQuestionModal show={show} handleClose={handleClose} questionToEdit={questionToEdit}></EditQuestionModal>
+      <EditQuestionModal show={show} handleClose={handleClose} questionToEdit={questionToEdit} refreshExam={refreshExam}></EditQuestionModal>
     </div>
   );
 }

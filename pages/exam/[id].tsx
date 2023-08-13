@@ -80,7 +80,7 @@ export default function ExamPage () {
 
       {questionRes !== null && <CreateQuestionModal show={show} handleClose={handleClose} questionCount={questionRes?.questions.length} examId={id} refreshExam={refreshExam}></CreateQuestionModal>}
 
-      {questionRes !== null && <QuestionArea questions={ questionRes.questions }></QuestionArea>}
+      {questionRes !== null && <QuestionArea questions={ questionRes.questions } refreshExam={refreshExam}></QuestionArea>}
 
     </div>
   );

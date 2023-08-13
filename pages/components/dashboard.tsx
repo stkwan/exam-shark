@@ -94,7 +94,7 @@ export default function DashBoard({ allExams }: ExamResponse ) {
         })} 
         
 
-      {questionRes !== null && <QuestionArea questions={ questionRes.questions }></QuestionArea>}
+      
        
     </div>
   );
