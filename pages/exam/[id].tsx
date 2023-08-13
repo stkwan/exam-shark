@@ -50,7 +50,7 @@ export default function ExamPage () {
         choice.click();
       }
     });
-    const allEditButtons = document.querySelectorAll('button.editButton');
+    const allEditButtons = document.querySelectorAll('button.editButton, button.deleteButton');
     allEditButtons.forEach(button => button.classList.add(questionAreaStyles.hide));
   }
 

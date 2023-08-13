@@ -20,8 +20,8 @@ function NavBar() {
             </Nav.Link>
           </Navbar.Brand>
           <Nav>
-            <Nav.Link as={Link} href="/search">Search</Nav.Link>
-            <Nav.Link as={Link} href="/about">About</Nav.Link>
+            {/*<Nav.Link as={Link} href="/search">Search</Nav.Link>
+            <Nav.Link as={Link} href="/about">About</Nav.Link>*/}
           </Nav>
         </Container>
       </Navbar>
