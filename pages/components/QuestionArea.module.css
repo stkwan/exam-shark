@@ -36,3 +36,7 @@ span.correct {
 .hide {
   display: none;
 }
+
+.editButton, .deleteButton {
+  margin-right: 5px;
+}

@@ -9,6 +9,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import CreateQuestionModal from '@/pages/components/modal';
 import questionAreaStyles from '@/pages/components/QuestionArea.module.css';
+import deleteExam from "@/controllers/examDelete";
 
 interface QuestionResponse {
   questions: Question[];
@@ -60,9 +61,19 @@ export default function ExamPage () {
         choice.click();
       }
     });
-    const allEditButtons = document.querySelectorAll('button.editButton');
+    const allEditButtons = document.querySelectorAll('button.editButton, button.deleteButton');
     allEditButtons.forEach(button => button.classList.remove(questionAreaStyles.hide));
   } 
+
+  const handleExamDelete = async () => {
+    console.log(id);
+    const response = window.confirm('Are you sure you want to delete this exam?');
+    if (response === true) {
+      await deleteExam(Number(id));
+      alert('Successfully deleted')
+      router.push('/')
+    }
+  }
 
   return (
     <div>
@@ -71,7 +82,7 @@ export default function ExamPage () {
           <Dropdown.Item className={styles.menuItem} onClick={handleShow}>Create Question</Dropdown.Item>
           <Dropdown.Item className={styles.menuItem} onClick={handleEditModeOn}>Edit Mode</Dropdown.Item>
           <Dropdown.Item className={styles.menuItem} onClick={handleTestModeOn}>Test Mode</Dropdown.Item>
-          <Dropdown.Item className={styles.menuItem}>Delete Exam</Dropdown.Item>
+          <Dropdown.Item className={styles.menuItem} onClick={handleExamDelete}>Delete Exam</Dropdown.Item>
         </DropdownButton>
         <h1>{title && title}</h1>
         <div className={styles.placeHolder}></div>

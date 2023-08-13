@@ -7,6 +7,8 @@ import Image from 'next/image';
 import correctSVG from '@/public/correct.svg';
 import incorrectSVG from '@/public/incorrect.svg';
 import EditQuestionModal from './editModal';
+import deleteQuestion from '@/controllers/questionDelete';
+import { useRouter } from 'next/router';
 
 interface QuestionResponse {
   questions: Question[]
@@ -21,6 +23,9 @@ export default function QuestionArea ( { questions, refreshExam }: QuestionRespo
   const handleShow = () => setShow(true);
   
   const [questionToEdit, setQuestionToEdit] = useState<Question>();
+
+  const router = useRouter();
+  const examId = router.query.id as string;
 
   const handleClick = function (event: MouseEvent<HTMLParagraphElement>, choice: Choice) {
     event.preventDefault();
@@ -52,8 +57,8 @@ export default function QuestionArea ( { questions, refreshExam }: QuestionRespo
 
   const sortQuestions = function(questions: Question[]):Question[] {
     return questions.sort((a: Question, b: Question) => {
-      const numberA = a.number;
-      const numberB = b.number;
+      const numberA = a.id;
+      const numberB = b.id;
       if (numberA < numberB) {
         return -1;
       }
@@ -78,14 +83,30 @@ export default function QuestionArea ( { questions, refreshExam }: QuestionRespo
     }); 
   }
 
+  const handleDeleteQuestion = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log('delete question!');
+
+    const button = event.target as HTMLButtonElement;
+    const targetQuestionId = button.getAttribute('data-question-id') as string;
+
+    const response = window.confirm('Are you sure you want to delete this question?');
+    if (response === true) {
+        await deleteQuestion(examId, targetQuestionId);
+        //const accordianItem = document.querySelector(`.card_${targetQuestionId}`);
+        //accordianItem?.remove();
+        router.reload();
+        alert('Successfully deleted question');
+    }
+  }
+
   return (
     <div>
-      <Accordion defaultActiveKey="1">
-      {sortQuestions(questions).map(question => {
+      <Accordion>
+      {sortQuestions(questions).map((question, index) => {
         return (
-          <Accordion.Item key={question.id} eventKey={`${question.number}`}>
+          <Accordion.Item className={`card_${question.id}`} key={question.id} eventKey={`${question.id}`}>
             <Accordion.Header>
-              {`${question.number}. ${question.prompt}`}
+              {`${index + 1}. ${question.prompt}`}
             </Accordion.Header>
             <Accordion.Body>
               {sortChoices(question.choices).map(choice => {
@@ -105,7 +126,8 @@ export default function QuestionArea ( { questions, refreshExam }: QuestionRespo
                   </p>
                 );
               })}
-              <button onClick={handleEdit} data-question-id={question.id} className={`${styles.hide} editButton btn btn-primary`}>Edit Question</button>
+              <button onClick={handleEdit} data-question-id={question.id} className={`${styles.hide} ${styles.editButton} editButton btn btn-primary`}>Edit</button>
+              <button onClick={handleDeleteQuestion} data-question-id={question.id} className={`${styles.hide} ${styles.deleteButton} deleteButton btn btn-primary`}>Delete</button>
             </Accordion.Body>
           </Accordion.Item>
         );
