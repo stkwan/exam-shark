@@ -64,6 +64,20 @@ export default function QuestionArea ( { questions, refreshExam }: QuestionRespo
     }); 
   }
 
+  const sortChoices = function(choices: Choice[]):Choice[] {
+    return choices.sort((a: Choice, b: Choice) => {
+      const numberA = Number(a.id);
+      const numberB = Number(b.id);
+      if (numberA < numberB) {
+        return -1;
+      }
+      if (numberA > numberB) {
+        return 1;
+      }
+      return 0;
+    }); 
+  }
+
   return (
     <div>
       <Accordion defaultActiveKey="1">
@@ -74,7 +88,7 @@ export default function QuestionArea ( { questions, refreshExam }: QuestionRespo
               {`${question.number}. ${question.prompt}`}
             </Accordion.Header>
             <Accordion.Body>
-              {question.choices.map(choice => {
+              {sortChoices(question.choices).map(choice => {
                 return (
                   <p 
                     className={styles.choice}
@@ -98,7 +112,7 @@ export default function QuestionArea ( { questions, refreshExam }: QuestionRespo
       })}
       </Accordion>
 
-      <EditQuestionModal show={show} handleClose={handleClose} questionToEdit={questionToEdit} refreshExam={refreshExam}></EditQuestionModal>
+      {questionToEdit && <EditQuestionModal show={show} handleClose={handleClose} questionToEdit={questionToEdit} refreshExam={refreshExam}></EditQuestionModal>}
     </div>
   );
 }
