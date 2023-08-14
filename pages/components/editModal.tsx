@@ -34,6 +34,7 @@ export default function EditQuestionModal( {show, handleClose, refreshExam, ques
     // if they are saving it, then they must always re-confirm the answer.
     if (answer === null) {
       alert('Please confirm the answer choice');
+      return;
     }
 
     // Take the question and put it in the correct structure
@@ -62,6 +63,7 @@ export default function EditQuestionModal( {show, handleClose, refreshExam, ques
     await updateQuestionChoices( Number(examId), questionId, questionArgument, choicesArgument );
     handleClose();
     refreshExam(String(examId));
+    setAnswer(null);
   }
 
   return (

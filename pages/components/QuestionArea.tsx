@@ -101,7 +101,7 @@ export default function QuestionArea ( { questions, refreshExam }: QuestionRespo
 
   return (
     <div>
-      <Accordion defaultActiveKey="0">
+      <Accordion defaultActiveKey={["0"]} alwaysOpen>
       {sortQuestions(questions).map((question, index) => {
         return (
           <Accordion.Item className={`card_${question.id}`} key={question.id} eventKey={`${index}`}>
