@@ -1,4 +1,4 @@
-import DashBoard from "./components/dashboard"
+import DashBoard from "@/components/dashboard"
 import type { GetServerSideProps } from "next";
 
 import { Exam, ExamResponse } from '@/models/Exam';

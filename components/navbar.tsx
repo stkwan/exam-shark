@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 
 import Link from 'next/link';
 import Image from 'next/image';
-import styles from '@/pages/components/navbar.module.css';
+import styles from '@/components/navbar.module.css';
 import examImage from '@/public/examImage.svg';
 
 function NavBar() {

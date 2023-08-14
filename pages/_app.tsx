@@ -24,7 +24,7 @@ const inter = Inter({ subsets: ['latin'] });
 // Elements that wrap Component are displayed on every page
 // Component pages are passed in with props and rendered
 
-import NavBar from '@/pages/components/navbar';
+import NavBar from '@/components/navbar';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

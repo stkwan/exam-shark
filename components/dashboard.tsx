@@ -1,4 +1,4 @@
-import styles from '@/pages/components/dashbord.module.css';
+import styles from '@/components/dashbord.module.css';
 import { Exam, ExamResponse } from '@/models/Exam';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Question } from '@/models/Question';

@@ -1,5 +1,5 @@
 import { Question } from '@/models/Question'
-import styles from '@/pages/components/QuestionArea.module.css';
+import styles from '@/components/QuestionArea.module.css';
 import React, { MouseEvent, useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Choice from '@/models/Choice';

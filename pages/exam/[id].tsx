@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import QuestionArea from "../components/QuestionArea";
+import QuestionArea from "@/components/QuestionArea";
 import { Question } from "@/models/Question";
 import styles from "@/styles/exam.module.css";
 import Image from "next/image";
 import menu from "@/public/menu.svg";
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import CreateQuestionModal from '@/pages/components/modal';
-import questionAreaStyles from '@/pages/components/QuestionArea.module.css';
+import CreateQuestionModal from '@/components/modal';
+import questionAreaStyles from '@/components/QuestionArea.module.css';
 import deleteExam from "@/controllers/examDelete";
 
 interface QuestionResponse {
