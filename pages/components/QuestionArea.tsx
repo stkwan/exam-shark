@@ -22,7 +22,7 @@ export default function QuestionArea ( { questions, refreshExam }: QuestionRespo
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   
-  const [questionToEdit, setQuestionToEdit] = useState<Question>();
+  const [questionToEdit, setQuestionToEdit] = useState<Question | null>(null);
 
   const router = useRouter();
   const examId = router.query.id as string;
