@@ -7,7 +7,7 @@ import { Exam, ExamResponse } from '@/models/Exam';
 // This gets called on every request
 export const getServerSideProps: GetServerSideProps<ExamResponse> = async () => {
   // Fetch data from external API
-  const res = await fetch(`${process.env.PROXY}/api/exam`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_PROXY}/api/exam`);
   const examResponse: ExamResponse = await res.json();
   //console.log(data);
 
