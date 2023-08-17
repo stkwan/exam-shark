@@ -40,3 +40,9 @@ span.correct {
 .editButton, .deleteButton {
   margin-right: 5px;
 }
+
+@media (hover: none) {
+  .choice:hover {
+    color: oldcolor;
+  }
+}

@@ -33,3 +33,9 @@
   padding: 0.3rem;
   width: 75%;
 }
+
+@media (hover: none) {
+  .examTitleCard:hover {
+    color: oldcolor;
+  }
+}
