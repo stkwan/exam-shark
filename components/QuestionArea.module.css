@@ -25,10 +25,6 @@
   justify-content: space-between;
 }
 
-.choice:hover {
-  background-color: lightgoldenrodyellow;
-}
-
 span.correct {
   display: none;
 }
@@ -41,8 +37,8 @@ span.correct {
   margin-right: 5px;
 }
 
-@media (hover: none) {
+@media (pointer: fine) {
   .choice:hover {
-    color: oldcolor;
+      background-color: lightgoldenrodyellow;
   }
 }

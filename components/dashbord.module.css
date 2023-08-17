@@ -21,21 +21,17 @@
   color: rgb(3, 110, 217);
 }
 
-.examTitleCard:hover {
-  box-shadow: 10px 5px 5px lightgrey;
-  border-radius: 10px;
-  background-color: lightgoldenrodyellow;
-  cursor: pointer;
-}
-
 .examSearchInput {
   font-size: 1.25rem;
   padding: 0.3rem;
   width: 75%;
 }
 
-@media (hover: none) {
+@media (pointer: fine) {
   .examTitleCard:hover {
-    color: oldcolor;
+    box-shadow: 10px 5px 5px lightgrey;
+    border-radius: 10px;
+    background-color: lightgoldenrodyellow;
+    cursor: pointer;
   }
 }
