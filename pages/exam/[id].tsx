@@ -26,8 +26,7 @@ export default function ExamPage () {
 
   useEffect(() => {
     if (typeof id === 'string') {
-      getExamTitle(id);
-      refreshExam(id);
+      Promise.all([getExamTitle(id), refreshExam(id)]);
     }
   }, [id])
 
