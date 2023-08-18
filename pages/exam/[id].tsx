@@ -28,7 +28,7 @@ export default function ExamPage () {
     if (typeof id === 'string') {
       Promise.all([getExamTitle(id), refreshExam(id)]);
     }
-  }, [id])
+  }, [id, title])
 
   const refreshExam = async (id: string) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_PROXY}/api/exam/${id}/question`);
