@@ -3,6 +3,9 @@ import type { GetServerSideProps } from "next";
 
 import { Exam, ExamResponse } from '@/models/Exam';
 
+export const config = {
+  runtime: 'experimental-edge', // or "edge"
+}
 
 // This gets called on every request
 export const getServerSideProps: GetServerSideProps<ExamResponse> = async () => {

@@ -15,6 +15,10 @@ interface QuestionResponse {
   questions: Question[];
 }
 
+export const config = {
+  runtime: 'experimental-edge', // or "edge"
+}
+
 export default function ExamPage () {
   const router = useRouter();
   const id = router.query.id as string;
